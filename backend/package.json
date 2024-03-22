@@ -5,13 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon main.cjs"
+    "dev": "nodemon --env-file .env main.cjs"
   },
   "type": "module",
   "author": "Spyridon Mihalopoulos<root.spyro@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.1"
+    "express": "^4.19.1",
+    "pg": "^8.11.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
