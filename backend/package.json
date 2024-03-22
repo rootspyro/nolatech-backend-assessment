@@ -1,0 +1,19 @@
+{
+  "name": "nolatech-backend-developer-assessment",
+  "version": "1.0.0",
+  "description": "technical assesment for the backend developer vacant of nolatech",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon main.cjs"
+  },
+  "type": "module",
+  "author": "Spyridon Mihalopoulos<root.spyro@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
