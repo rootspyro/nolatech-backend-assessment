@@ -5,10 +5,13 @@ const app = express()
 
 const port = 3000
 
-app.get("/v1/health", (req, res) => {
-  res.json({
-    "status": "server is up!"
-  })
+const router = require("./routes/router.cjs")
+
+app.use("/v1", router)
+
+app.get("*", (req, res) => {
+  res.status(404)
+  res.json({"status": "path not found"})
 })
 
 app.listen(port, () => {
