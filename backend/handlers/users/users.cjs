@@ -5,7 +5,7 @@
 const userModel = require("../../db/models/user.cjs")
 const Responses = require("../../core/responses.cjs")
 const pipes = require("./pipes.cjs")
-const { Op } = require("sequelize");
+const { Op, Sequelize } = require("sequelize");
 const bcrypt = require("bcrypt")
 
 const responseModule = new Responses()
@@ -134,8 +134,54 @@ async function CreateUser(req, res) {
 
 async function UpdateUser(req, res) {
 
+  const params = req.params
+  const id = params.id
+
+
+  try {
+
+    // validate if users exists 
+    let user = await userModel.findByPk(id, {})
+
+    if (user == null) {
+      responseModule.NOT_FOUND(res)
+      return
+    }
+
+  } catch(err) {
+    responseModule.INTERNAL_SERVER_ERROR(res)
+  }
+
   let body = pipes.UpdateUserBodyPipe(req.body) 
-  responseModule.OK(res, {})
+  body.updated_at = Sequelize.fn("now")
+
+  try {
+
+    const updateResponse = await userModel.update(body, {
+      where: {
+        id
+      }
+    })
+
+    if (updateResponse == null) {
+      responseModule.INTERNAL_SERVER_ERROR(res)
+      return
+    }
+
+    const userUpdated = await userModel.findByPk(id)
+
+    if (userUpdated == null) {
+      console.log("error getting the updated user")
+      responseModule.INTERNAL_SERVER_ERROR(res)
+      return
+    }
+
+    responseModule.OK(res, pipes.User(userUpdated.dataValues))    
+
+  } catch(err) {
+    console.log(err)
+    responseModule.INTERNAL_SERVER_ERROR(res)
+  }
 }
 
 module.exports = {
