@@ -11,6 +11,7 @@
   "author": "Spyridon Mihalopoulos<root.spyro@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.19.1",
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",

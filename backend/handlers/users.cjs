@@ -4,6 +4,8 @@
 
 const userModel = require("../db/models/user.cjs")
 const Responses = require("../core/responses.cjs")
+const { Op } = require("sequelize");
+const bcrypt = require("bcrypt")
 
 const responseModule = new Responses()
 
@@ -60,27 +62,68 @@ async function GetSingleUser(req, res) {
   }
 }
 
-
-function createUserPipe(body, res) {
-
-  const {
-    username
-  } = body
-
-  if ( !username ) {
-
-    responseModule.BODY_NOT_FOUND_FIELD(res, "username")    
-    console.log("error")
-
-  } else  if ( username.length <= 3 ) {
-    
-    responseModule.BODY_FIELD_LENGTH_ERROR(res, "username", 3)
-  }
-}
-
 async function CreateUser(req, res) {
 
-  responseModule.CREATED(res, {})
+  const body = req.body
+
+  // validates if user already exits
+  const exitsUser = await userModel.findOne({
+    where: {
+      [Op.or]: [
+        { username: body.username },
+        { email: body.email }
+      ]
+    }
+  })
+
+  if ( exitsUser ) {
+
+    responseModule.Base(res, 403, false, {
+      data: "user already exits!"
+    })
+    return
+  }
+
+  // if user don't exits then create it
+
+  bcrypt.hash(body.password, 10)
+    .then(async hash => {
+
+      const newUser = await userModel.create({
+        username: body.username,
+        email: body.email,
+        firstname: body.firstname,
+        lastname: body.lastname,
+        password: hash 
+      }, {
+        fields: [
+          "id",
+          "username",
+          "email",
+          "firstname",
+          "lastname",
+          "password",
+          "created_at",
+          "updated_at",
+          "status"
+        ]
+      })
+
+      if (newUser == null) {
+
+        responseModule.INTERNAL_SERVER_ERROR(res)
+        return
+      } 
+
+      responseModule.CREATED(res, newUser.dataValues)
+      return
+
+    }).catch(err => {
+
+      console.log(err)
+      responseModule.INTERNAL_SERVER_ERROR(res)
+      return
+    })
 
 }
 

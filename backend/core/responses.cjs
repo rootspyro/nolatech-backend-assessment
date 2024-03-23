@@ -46,6 +46,7 @@ module.exports = class Responses {
   }
 
   INTERNAL_SERVER_ERROR(res) { 
+
     this.Base(res, this.statusInternalServerErr, false, this.serverErrMsg)
   }
 
