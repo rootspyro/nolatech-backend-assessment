@@ -41,6 +41,19 @@ function ValidUserID(id) {
   return Number.isInteger(numId) && numId > 0 
 }
 
+function GetMethodSingleUser(req, res, next) {
+
+  const params = req.params
+  const id = params.id
+
+  if (!ValidUserID(id)) {
+    responseModule.PARAMS_BAD_REQUEST(res, rules.userId.field)
+    return
+  }
+
+  next()
+}
+
 function PostMethodUserBody(req, res, next) {
 
   const {
@@ -175,6 +188,7 @@ function PatchMethodUserBody(req, res, next) {
 }
 
 module.exports = {
+  GetMethodSingleUser,
   PostMethodUserBody,
   PatchMethodUserBody,
 }

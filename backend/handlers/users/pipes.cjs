@@ -1,4 +1,28 @@
-function UpdateUserPipe(body) {
+function User(data) {
+  const {
+    id,
+    username,
+    email,
+    firstname,
+    lastname,
+    created_at,
+    updated_at,
+    status,
+  } = data
+
+  return {
+    userId: id,
+    user: username,
+    email,
+    firstname,
+    lastname,
+    createdAt: created_at,
+    updatedAt: updated_at,
+    status,
+  }
+}
+
+function UpdateUserBodyPipe(body) {
 
   let bodyPiped = {}
 
@@ -29,5 +53,6 @@ function UpdateUserPipe(body) {
 }
 
 module.exports = {
-  UpdateUserPipe, 
+  User,
+  UpdateUserBodyPipe, 
 }

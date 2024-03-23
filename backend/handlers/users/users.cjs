@@ -4,7 +4,7 @@
 
 const userModel = require("../../db/models/user.cjs")
 const Responses = require("../../core/responses.cjs")
-const pipe = require("./pipes.cjs")
+const pipes = require("./pipes.cjs")
 const { Op } = require("sequelize");
 const bcrypt = require("bcrypt")
 
@@ -22,9 +22,13 @@ async function GetUsers(req, res) {
 
     const data = dataResponse.filter((user) => user.dataValues) 
 
+    const users = data.map(user => {
+      return pipes.User(user)
+    })
+
     const response = {
-      itemsFound: data.length,
-      items: data
+      itemsFound: users.length,
+      items: users 
     }
 
     responseModule.OK(res, response)
@@ -54,7 +58,7 @@ async function GetSingleUser(req, res) {
     }
 
     const data = dbResponse.dataValues
-    responseModule.OK(res, data)
+    responseModule.OK(res, pipes.User(data))
 
   } catch(err) {
 
@@ -130,7 +134,7 @@ async function CreateUser(req, res) {
 
 async function UpdateUser(req, res) {
 
-  let body = pipe.UpdateUserPipe(req.body) 
+  let body = pipes.UpdateUserBodyPipe(req.body) 
   responseModule.OK(res, {})
 }
 
