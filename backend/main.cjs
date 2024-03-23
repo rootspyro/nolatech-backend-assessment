@@ -5,6 +5,7 @@ const app = express()
 
 const port = 3000
 
+app.use(express.json())
 const router = require("./routes/router.cjs")
 
 app.use("/v1", router)

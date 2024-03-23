@@ -17,6 +17,9 @@ module.exports = class Responses {
     this.statusBadRequest = 400
     this.statusNotFound = 404
     this.statusInternalServerErr = 500
+
+    // IDs
+    this.bodyBadRequestID = "BODY_BAD_REQUEST"
   }
 
   Base(res, statusCode, success, data) {
@@ -46,5 +49,18 @@ module.exports = class Responses {
     this.Base(res, this.statusInternalServerErr, false, this.serverErrMsg)
   }
 
+  BODY_NOT_FOUND_FIELD(res, field) {
+    this.Base(res, this.statusBadRequest, false, {
+      id: this.bodyBadRequestID,
+      data: `request.${field} is required`
+    })
+  }
+
+  BODY_FIELD_LENGTH_ERROR(res, field, length) {
+    this.Base(res, this.statusBadRequest, false, {
+      id: this.bodyBadRequestID,
+      data: `request.${field}.length must be higher than ${length}.`
+    })
+  }
 }
 

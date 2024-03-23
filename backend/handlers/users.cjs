@@ -58,9 +58,40 @@ async function GetSingleUser(req, res) {
     console.log(err)
     responseModule.INTERNAL_SERVER_ERROR(res)
   }
- }
+}
+
+
+function createUserPipe(body, res) {
+
+  const {
+    username
+  } = body
+
+  if ( !username ) {
+
+    responseModule.BODY_NOT_FOUND_FIELD(res, "username")    
+    console.log("error")
+
+  } else  if ( username.length <= 3 ) {
+    
+    responseModule.BODY_FIELD_LENGTH_ERROR(res, "username", 3)
+  }
+}
+
+async function CreateUser(req, res) {
+
+  responseModule.CREATED(res, {})
+
+}
+
+async function UpdateUser(req, res) {
+
+  responseModule.OK(res, {})
+}
 
 module.exports = {
   GetUsers,
-  GetSingleUser
+  GetSingleUser,
+  CreateUser,
+  UpdateUser,
 }
