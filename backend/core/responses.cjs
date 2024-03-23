@@ -19,6 +19,7 @@ module.exports = class Responses {
     this.statusInternalServerErr = 500
 
     // IDs
+    this.paramsBadRequestID = "PARAMS_BAD_REQUEST"
     this.bodyBadRequestID = "BODY_BAD_REQUEST"
   }
 
@@ -50,17 +51,24 @@ module.exports = class Responses {
     this.Base(res, this.statusInternalServerErr, false, this.serverErrMsg)
   }
 
+  PARAMS_BAD_REQUEST(res, field) {
+    this.Base(res, this.statusBadRequest, false, {
+      id: this.paramsBadRequestID,
+      error: `invalid request.${field} value`
+    })
+  }
+
   BODY_NOT_FOUND_FIELD(res, field) {
     this.Base(res, this.statusBadRequest, false, {
       id: this.bodyBadRequestID,
-      data: `request.${field} is required`
+      error: `request.${field} is required`
     })
   }
 
   BODY_FIELD_LENGTH_ERROR(res, field, length) {
     this.Base(res, this.statusBadRequest, false, {
       id: this.bodyBadRequestID,
-      data: `request.${field}.length must be higher than ${length}.`
+      error: `request.${field}.length must be higher than ${length}.`
     })
   }
 }

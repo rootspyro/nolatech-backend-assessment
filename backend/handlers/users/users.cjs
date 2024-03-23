@@ -2,8 +2,9 @@
  * Users Handlers Module
  */
 
-const userModel = require("../db/models/user.cjs")
-const Responses = require("../core/responses.cjs")
+const userModel = require("../../db/models/user.cjs")
+const Responses = require("../../core/responses.cjs")
+const pipe = require("./pipes.cjs")
 const { Op } = require("sequelize");
 const bcrypt = require("bcrypt")
 
@@ -129,6 +130,7 @@ async function CreateUser(req, res) {
 
 async function UpdateUser(req, res) {
 
+  let body = pipe.UpdateUserPipe(req.body) 
   responseModule.OK(res, {})
 }
 
