@@ -3,72 +3,60 @@
  */
 
 const userModel = require("../db/models/user.cjs")
+const Responses = require("../core/responses.cjs")
+
+const responseModule = new Responses()
 
 async function GetUsers(req, res) {
 
   try {
 
-    const response = await userModel.findAll({
+    const dataResponse = await userModel.findAll({
       where: {
         status: "AVAILABLE" 
       }
     }) 
-    const data = response.filter((user) => user.dataValues) 
 
-    res.status(200).json({
-      success: true,
+    const data = dataResponse.filter((user) => user.dataValues) 
+
+    const response = {
       itemsFound: data.length,
-      data 
-    })
+      items: data
+    }
+
+    responseModule.OK(res, response)
 
     return
 
   } catch(err) {
 
     console.log(err)
-
-    res.status(500).json({
-      success: false,
-      data: "something went wrong"
-    })
-
+    responseModule.INTERNAL_SERVER_ERROR(res)
   }
 
 }
 
 async function GetSingleUser(req, res) {
 
-  const id = req.param("id")
-
+  const params = req.params
+  const id = params.id
+  
   try {
     
-    const response = await userModel.findByPk(id, {}) 
+    const dbResponse = await userModel.findByPk(id, {}) 
 
-    if (response == null) { // NOT FOUND
-
-      res.status(404).json({
-        success: false,
-        data: "User not found"
-      }) 
-
+    if (dbResponse == null) { // NOT FOUND
+      responseModule.NOT_FOUND(res)
       return
     }
 
-    const data = response.dataValues
-
-    res.status(200).json({
-      success: true,
-      data
-    })
+    const data = dbResponse.dataValues
+    responseModule.OK(res, data)
 
   } catch(err) {
 
     console.log(err)
-
-    response.status(500).json({
-      success: false,
-      data: "something went wrong!"
-    })
+    responseModule.INTERNAL_SERVER_ERROR(res)
   }
  }
 
