@@ -1,6 +1,9 @@
 const userRouter = require("express").Router()
 const userHandler = require("../handlers/users/users.cjs")
 const userValidator = require("../validators/users.cjs")
+const authValidator = require("../validators/auth.cjs")
+
+userRouter.use((req, res, next) => authValidator.ValidateBearerToken(req, res, next))
 
 userRouter.get("/",
   (req, res, next) => userValidator.GetMethodUsersQueries(req, res, next),
