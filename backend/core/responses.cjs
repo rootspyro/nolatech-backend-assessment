@@ -9,12 +9,14 @@ module.exports = class Responses {
     // error predefined messages
     this.badRequestMsg = "request cannot be processed!"
     this.notFoundMsg = "item was not found!"
+    this.unauthorized = "cannot perform this action!"
     this.serverErrMsg = "something went wrong!"
 
     // http status codes
     this.statusOk = 200
     this.statusCreated = 201
     this.statusBadRequest = 400
+    this.statusUnauthorized = 401
     this.statusNotFound = 404
     this.statusInternalServerErr = 500
 
@@ -42,12 +44,15 @@ module.exports = class Responses {
     this.Base(res, this.statusBadRequest, false, this.badRequestMsg)
   }
 
+  UNAUTHORAZED(res) {
+    this.Base(res, this.statusUnauthorized, false, this.unauthorized)
+  }
+
   NOT_FOUND(res) { 
     this.Base(res, this.statusNotFound, false, this.notFoundMsg)
   }
 
   INTERNAL_SERVER_ERROR(res) { 
-
     this.Base(res, this.statusInternalServerErr, false, this.serverErrMsg)
   }
 

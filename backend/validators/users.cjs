@@ -1,6 +1,6 @@
 /*
- *  Name: Users Validator Module
- *  Description: middlewares to make validations of the users payload 
+ *  Users Validator Module
+ *  Middlewares to make validations of the users payload 
  */
 
 const Responses = require("../core/responses.cjs")

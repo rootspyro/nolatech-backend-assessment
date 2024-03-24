@@ -8,7 +8,7 @@ const port = 3000
 app.use(express.json())
 const router = require("./routes/router.cjs")
 
-app.use("/v1", router)
+app.use("/", router)
 
 app.get("*", (req, res) => {
   res.status(404)
