@@ -14,10 +14,19 @@ async function GetUsers(req, res) {
 
   try {
 
+    const {
+      page,
+      count
+    } = pipes.GetUsersQueries(req.query)
+
+    let offset = ((page - 1) * count)
+
     const dataResponse = await userModel.findAll({
-      where: {
-        status: "AVAILABLE" 
-      }
+      offset: offset,
+      limit: count,
+      order: [
+        ["id", "DESC"]
+      ]
     }) 
 
     const data = dataResponse.filter((user) => user.dataValues) 

@@ -22,6 +22,29 @@ function User(data) {
   }
 }
 
+function GetUsersQueries(query) {
+
+  const {
+    page,
+    count
+  } = query
+
+  const pipeQueries = {
+    page: 1,
+    count: 10
+  }
+
+  if (page != undefined) {
+    pipeQueries.page = page
+  }  
+
+  if (count != undefined) {
+    pipeQueries.count = count
+  }
+
+  return pipeQueries
+}
+
 function UpdateUserBodyPipe(body) {
 
   let bodyPiped = {}
@@ -54,5 +77,6 @@ function UpdateUserBodyPipe(body) {
 
 module.exports = {
   User,
+  GetUsersQueries,
   UpdateUserBodyPipe, 
 }

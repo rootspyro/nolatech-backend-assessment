@@ -36,9 +36,47 @@ const rules = {
   }
 }
 
-function ValidUserID(id) {
+function ValidNumber(id) {
   const numId = Number(id)
   return Number.isInteger(numId) && numId > 0 
+}
+
+function GetMethodUsersQueries(req, res, next) {
+
+  const {
+    page,
+    count 
+  }  = req.query
+
+  if (page != undefined && !ValidNumber(page)) {
+    responseModule.Base(
+      res,
+      responseModule.statusBadRequest,
+      false,
+      {
+        id: "QUERIES_BAD_REQUEST",
+        error: "invalid request.page value"
+      } 
+    )
+
+    return
+  }
+
+  if (count != undefined && !ValidNumber(count)) {
+    responseModule.Base(
+      res,
+      responseModule.statusBadRequest,
+      false,
+      {
+        id: "QUERIES_BAD_REQUEST",
+        error: "invalid request.count value"
+      } 
+    )
+
+    return
+  }
+
+  next()
 }
 
 function GetMethodSingleUser(req, res, next) {
@@ -46,7 +84,7 @@ function GetMethodSingleUser(req, res, next) {
   const params = req.params
   const id = params.id
 
-  if (!ValidUserID(id)) {
+  if (!ValidNumber(id)) {
     responseModule.PARAMS_BAD_REQUEST(res, rules.userId.field)
     return
   }
@@ -154,7 +192,7 @@ function PatchMethodUserBody(req, res, next) {
   const params = req.params
   const id = params.id
 
-  if (!ValidUserID(id)) {
+  if (!ValidNumber(id)) {
     responseModule.PARAMS_BAD_REQUEST(res, rules.userId.field)
     return
   }
@@ -188,6 +226,7 @@ function PatchMethodUserBody(req, res, next) {
 }
 
 module.exports = {
+  GetMethodUsersQueries,
   GetMethodSingleUser,
   PostMethodUserBody,
   PatchMethodUserBody,
