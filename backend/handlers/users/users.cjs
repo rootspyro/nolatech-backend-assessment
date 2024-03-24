@@ -169,21 +169,11 @@ async function UpdateUser(req, res) {
     const updateResponse = await userModel.update(body, {
       where: {
         id
-      }
+      },
+      returning: true
     })
 
-    if (updateResponse == null) {
-      responseModule.INTERNAL_SERVER_ERROR(res)
-      return
-    }
-
-    const userUpdated = await userModel.findByPk(id)
-
-    if (userUpdated == null) {
-      console.log("error getting the updated user")
-      responseModule.INTERNAL_SERVER_ERROR(res)
-      return
-    }
+    const userUpdated = updateResponse[1][0]
 
     responseModule.OK(res, pipes.User(userUpdated.dataValues))    
 
@@ -193,9 +183,46 @@ async function UpdateUser(req, res) {
   }
 }
 
+async function DeleteUser(req, res) {  
+
+  const params = req.params
+  const id = params.id
+
+  try {
+
+    // validate if user exist
+    const user = await userModel.findByPk(id)
+
+    if (user == undefined) {
+      responseModule.NOT_FOUND(res)
+      return
+    }
+
+    const deleteUser = await userModel.destroy({
+      where: {
+        id
+      }
+    })
+
+    responseModule.OK(res,{
+      affectedRows: deleteUser,
+      message: "user successfully deleted"
+    })
+
+    return
+
+  } catch(error) {
+    console.log(error)
+    responseModule.INTERNAL_SERVER_ERROR(res)
+    return
+  }
+
+}
+
 module.exports = {
   GetUsers,
   GetSingleUser,
   CreateUser,
   UpdateUser,
+  DeleteUser
 }

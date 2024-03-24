@@ -22,4 +22,9 @@ userRouter.patch("/:id",
   (req, res) => userHandler.UpdateUser(req, res)
 )
 
+userRouter.delete("/:id",
+  (req, res, next) => userValidator.GetMethodSingleUser(req, res, next),
+  (req, res) => userHandler.DeleteUser(req, res)
+)
+
 module.exports = userRouter
