@@ -17,7 +17,7 @@ const rules = {
   // plain text password
   password: {
     field: "password",
-    minLength: 8,
+    minLength: 7,
   },
   authHeader: {
     field: "authorization"
@@ -47,7 +47,7 @@ function PostMethodLogin(req, res, next) {
     responseModule.BODY_NOT_FOUND_FIELD(res, rules.password.field)
     return
 
-  } else if (user.length < rules.password.minLength) {
+  } else if (password.length < rules.password.minLength) {
 
     responseModule.BODY_FIELD_LENGTH_ERROR(res, rules.password.field, rules.password.minLength)
     return

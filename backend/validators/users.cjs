@@ -16,7 +16,7 @@ const rules = {
   },
   email: {
     field: "email",
-    minLength: 8 
+    minLength: 7 
   },
   firstname: {
     field: "firstname",

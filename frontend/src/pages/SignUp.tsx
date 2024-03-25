@@ -42,6 +42,8 @@ function SignUp() {
       }
     )
 
+    console.log(response)
+
       if (response.status == 403) {
 
         Swal.fire({
@@ -197,8 +199,8 @@ function SignUp() {
       </button>
 
       <p className="text-center text-sm text-gray-500">
-        Ya posses una cuenta?
-        <a className="underline" href="/login">Inicia sesion</a>
+        Ya posees una cuenta?
+        <a className="underline" href="/login"> Inicia sesión</a>
       </p>
     </form>
   </div>
