@@ -10,14 +10,15 @@ const routerV1 = express.Router()
 routerV1.use("/auth", require("./auth.cjs"))
 routerV1.use("/users", require("./user.cjs"))
 
-routerV1.get("/health", (req, res) => {
+
+// API VERSION ROUTE
+router.use(`/${appConf.Api.Router.version}`, routerV1)
+
+router.get("/health", (req, res) => {
   res.json({
     "status": "server is up!"
   })
 })
-
-// API VERSION ROUTE
-router.use(`/${appConf.Api.Router.version}`, routerV1)
 
 // Add NOT_FOUND Path
 router.all("*", (req, res) => {

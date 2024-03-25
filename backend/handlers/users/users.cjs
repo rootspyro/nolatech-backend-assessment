@@ -127,7 +127,7 @@ async function CreateUser(req, res) {
         return
       } 
 
-      responseModule.CREATED(res, pipes.User(newUser.dataValues))
+      responseModule.CREATED(res, newUser.dataValues)
       return
 
     }).catch(err => {
