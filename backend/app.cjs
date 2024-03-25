@@ -1,11 +1,7 @@
 'use strict';
 
-const appConf = require("./core/configuration.cjs")
-
 const express = require("express")
-const app = express()
-
-const port = appConf.App.port
+const app = express(3000)
 
 app.use(express.json())
 const router = require("./routes/router.cjs")
@@ -17,6 +13,4 @@ app.get("*", (req, res) => {
   res.json({"status": "path not found"})
 })
 
-app.listen(port, () => {
-  console.log("Listening on port :"+ port)
-})
+module.exports = app
