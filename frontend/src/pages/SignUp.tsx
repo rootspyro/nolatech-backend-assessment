@@ -22,7 +22,7 @@ function SignUp() {
   } = useForm<Inputs>()
 
   let password = watch("password")
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
 
     const body = {
       username: data.username,
@@ -32,7 +32,7 @@ function SignUp() {
       password: data.password
     } 
 
-    fetch("http://localhost:3000/v1/users", 
+    const response = await fetch(import.meta.env.VITE_API_HOST + "/users", 
       {
         method: "POST",
         headers: {
@@ -41,40 +41,36 @@ function SignUp() {
         body: JSON.stringify(body)
       }
     )
-      .then(response => response.json())
-      .then(data => {
-      console.log(data)
 
-          if (!data?.success){
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "El usuario no pudo ser creado",
-            });
-          }
-          
-          if(data?.success) {
+      if (response.status == 403) {
 
-            Swal.fire({
-              icon: "success",
-              title: "Usuario creado",
-              }).then(result => {
-                if(result.isConfirmed) {
-                console.log("puta")
-                navigate("/login")
-                }
-              })
-
-          }
-      })
-      .catch(err => {
-        console.log(err)
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Something went wrong!",
+          text: "Este usuario ya existe",
         });
-      })
+        return
+      }
+
+      const responseData = await response.json()
+
+      if (!responseData.success) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "El usuario no pudo ser creado",
+        });
+        return
+      }
+
+      Swal.fire({
+        icon: "success",
+        title: "Usuario creado",
+        }).then(buttonEvent => {
+          if(buttonEvent.isConfirmed) {
+            navigate("/login")
+          }
+        })
   }
 
   return(
