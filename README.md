@@ -27,7 +27,7 @@ This endpoint validates that the service is UP!
 GET /health
 ```
 
-Endpoint: [lszgnbi46h.execute-api.us-east-1.amazonaws.com/default/v1/health](https://lszgnbi46h.execute-api.us-east-1.amazonaws.com/default/v1/health)
+Endpoint: [lszgnbi46h.execute-api.us-east-1.amazonaws.com/default/health](https://lszgnbi46h.execute-api.us-east-1.amazonaws.com/default/v1/health)
 
 #### Login 
 ```http
