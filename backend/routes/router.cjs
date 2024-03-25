@@ -1,4 +1,5 @@
 const express = require("express")
+const appConf = require("../core/configuration.cjs")
 
 // Main Router Object
 const router = express.Router()
@@ -15,8 +16,8 @@ routerV1.get("/health", (req, res) => {
   })
 })
 
-// Add router V1 group
-router.use("/v1", routerV1)
+// API VERSION ROUTE
+router.use(`/${appConf.Api.Router.version}`, routerV1)
 
 // Add NOT_FOUND Path
 router.all("*", (req, res) => {

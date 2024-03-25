@@ -1,9 +1,11 @@
 'use strict';
 
+const appConf = require("./core/configuration.cjs")
+
 const express = require("express")
 const app = express()
 
-const port = 3000
+const port = appConf.App.port
 
 app.use(express.json())
 const router = require("./routes/router.cjs")

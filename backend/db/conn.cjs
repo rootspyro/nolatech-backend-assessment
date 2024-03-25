@@ -1,8 +1,9 @@
 const { Sequelize } = require('sequelize');
+const appConf = require("../core/configuration.cjs")
 
-const dbconn = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
-  host: process.env.DB_HOST,
-  dialect: "postgres",
+const dbconn = new Sequelize(appConf.Database.name, appConf.Database.username, appConf.Database.password, {
+  host: appConf.Database.host,
+  dialect: appConf.Database.dialect,
   logging: false 
 })
 

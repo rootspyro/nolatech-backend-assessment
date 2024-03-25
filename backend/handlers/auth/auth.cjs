@@ -4,6 +4,7 @@
 
 const userModel = require("../../db/models/user.cjs")
 const Responses = require("../../core/responses.cjs")  
+const appConf = require("../../core/configuration.cjs")
 const responseModule = new Responses()
 const {Op} = require("sequelize")
 const jwt = require("jsonwebtoken")
@@ -47,7 +48,7 @@ async function UserLogin(req, res) {
           user: userData.username,
           email: userData.email,
         }
-      }, "temporalSecretKey", {expiresIn: "24h"})
+      }, appConf.Api.Authentication.secret, {expiresIn: appConf.Api.Authentication.tokenExp})
 
       responseModule.OK(res, {
         token

@@ -3,6 +3,7 @@
  *  Middlewares to make validations of the authentication payload 
  */
 
+const appConf = require("../core/configuration.cjs")
 const Responses = require("../core/responses.cjs")
 const responseModule = new Responses()
 const jwt = require("jsonwebtoken")
@@ -73,7 +74,7 @@ function ValidateBearerToken(req, res, next) {
 
   try {
 
-    decodedToken = jwt.verify(bearerToken, "temporalSecretKey")
+    decodedToken = jwt.verify(bearerToken, appConf.Api.Authentication.secret)
     next()
     
   } catch(err) {
