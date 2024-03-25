@@ -92,9 +92,7 @@ async function CreateUser(req, res) {
 
   if ( exitsUser ) {
 
-    responseModule.Base(res, 403, false, {
-      data: "user already exits!"
-    })
+    responseModule.Base(res, 403, false, "User already exits")
     return
   }
 
@@ -129,7 +127,7 @@ async function CreateUser(req, res) {
         return
       } 
 
-      responseModule.CREATED(res, newUser.dataValues)
+      responseModule.CREATED(res, pipes.User(newUser.dataValues))
       return
 
     }).catch(err => {

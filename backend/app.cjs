@@ -2,9 +2,13 @@
 
 const express = require("express")
 const app = express(3000)
+const cors = require("cors")
+const appConf = require("./core/configuration.cjs")
 
 app.use(express.json())
 const router = require("./routes/router.cjs")
+
+app.use(cors(appConf.Api.Cors))
 
 app.use("/", router)
 

@@ -10,6 +10,9 @@ module.exports = {
       secret: process.env.SECRET,
       tokenExp: "12h"
     },
+    Cors: {
+      origin: "*",
+    }
   },
   Database : {
     dialect: "postgres",
